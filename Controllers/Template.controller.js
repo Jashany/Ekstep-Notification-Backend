@@ -11,7 +11,7 @@ import { z } from "zod";
 
 const getTemplates = asyncHandler(async (req, res) => {
    try {
-    const type = req.query.type;
+    const {type} = req.params;
     const templates = await Template.find({ type });
 
     if (templates) {
@@ -50,7 +50,9 @@ const createTemplate = asyncHandler(async (req, res) => {
             templateId: z.string(),
         });
 
-        const parsedInput = schema.safeParse(req.body);
+        const input  = req.body;
+
+        const parsedInput = schema.safeParse(input);
 
         if (parsedInput.success === false) {
             res.status(400).json({
@@ -59,7 +61,7 @@ const createTemplate = asyncHandler(async (req, res) => {
             });
         }
 
-        const { Subject, Content, type ,templateId } = parsedInput;
+        const { Subject, Content, type ,templateId } = parsedInput.data;
         const template = await Template.create({
             Subject,
             Content,

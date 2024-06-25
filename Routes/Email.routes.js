@@ -5,7 +5,7 @@ import { verify, roleAuthorization } from "../middlewares/authenticated.js";
 
 const EmailRouter = express.Router();
 
-EmailRouter.post("/send", verify, roleAuthorization(['admin']), sendEmail);
+EmailRouter.post("/send", verify, roleAuthorization(['Admin']), sendEmail);
 
 export default EmailRouter;
 
